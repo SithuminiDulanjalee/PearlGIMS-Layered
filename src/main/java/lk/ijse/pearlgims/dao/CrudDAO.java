@@ -1,7 +1,6 @@
 package lk.ijse.pearlgims.dao;
 
 import lk.ijse.pearlgims.dto.CustomerDTO;
-S
 import java.sql.SQLException;
 import java.util.ArrayList;
 
