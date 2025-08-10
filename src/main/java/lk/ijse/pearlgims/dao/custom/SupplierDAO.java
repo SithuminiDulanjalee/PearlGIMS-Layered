@@ -2,12 +2,13 @@ package lk.ijse.pearlgims.dao.custom;
 
 import lk.ijse.pearlgims.dao.CrudDAO;
 import lk.ijse.pearlgims.dto.SupplierDTO;
+import lk.ijse.pearlgims.entity.Supplier;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface SupplierDAO extends CrudDAO<SupplierDTO> {
-    public ArrayList<SupplierDTO> getAll(String search) throws SQLException, ClassNotFoundException;
+public interface SupplierDAO extends CrudDAO<Supplier> {
+    public ArrayList<Supplier> getAll(String search) throws SQLException, ClassNotFoundException;
 
 //    public boolean save(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException ;
 //

@@ -6,6 +6,7 @@ import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.CustomerDAO;
 import lk.ijse.pearlgims.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.pearlgims.dto.CustomerDTO;
+import lk.ijse.pearlgims.entity.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,12 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
-        return customerDAO.getAll();
+        ArrayList<Customer> entity =customerDAO.getAll();
+        ArrayList<CustomerDTO> customerDTO=new ArrayList<>();
+        for (Customer c:entity){
+            customerDTO.add(new CustomerDTO(c.getCustomerID(),c.getName(),c.getContact(),c.getEmail(),c.getAddress()));
+        }
+        return customerDTO;
     }
 
     @Override
@@ -26,12 +32,26 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public boolean saveCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
-        return customerDAO.save(customerDTO);
+        return customerDAO.save(
+                new Customer(
+                        customerDTO.getCustomerID(),
+                        customerDTO.getName(),
+                        customerDTO.getContact(),
+                        customerDTO.getEmail(),
+                        customerDTO.getAddress()
+                ));
     }
 
     @Override
     public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
-        return customerDAO.update(customerDTO);
+        return customerDAO.save(
+                new Customer(
+                        customerDTO.getCustomerID(),
+                        customerDTO.getName(),
+                        customerDTO.getContact(),
+                        customerDTO.getEmail(),
+                        customerDTO.getAddress()
+                ));
     }
 
     @Override

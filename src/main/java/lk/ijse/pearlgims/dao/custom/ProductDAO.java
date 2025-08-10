@@ -3,11 +3,12 @@ package lk.ijse.pearlgims.dao.custom;
 import lk.ijse.pearlgims.dao.CrudDAO;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
+import lk.ijse.pearlgims.entity.Product;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface ProductDAO extends CrudDAO<ProductDTO> {
+public interface ProductDAO extends CrudDAO<Product> {
     public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException;
 
     public ArrayList<String> getAllSizes() throws SQLException, ClassNotFoundException;

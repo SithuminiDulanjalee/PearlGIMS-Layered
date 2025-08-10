@@ -5,6 +5,7 @@ import lk.ijse.pearlgims.dao.DAOFactory;
 import lk.ijse.pearlgims.dao.custom.SupplierDAO;
 import lk.ijse.pearlgims.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.pearlgims.dto.SupplierDTO;
+import lk.ijse.pearlgims.entity.Supplier;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,12 +14,12 @@ public class SupplierBOImpl implements SupplierBO {
     SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.SUPPLIER);
     @Override
     public boolean saveSupplier(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
-        return supplierDAO.save(supplierDTO);
+        return supplierDAO.save(new Supplier(supplierDTO.getSupplierID(), supplierDTO.getName(), supplierDTO.getContact(), supplierDTO.getEmail(), supplierDTO.getAddress()));
     }
 
     @Override
     public boolean updateSupplier(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
-        return supplierDAO.update(supplierDTO);
+        return supplierDAO.update(new Supplier(supplierDTO.getSupplierID(), supplierDTO.getName(), supplierDTO.getContact(), supplierDTO.getEmail(), supplierDTO.getAddress()));
     }
 
     @Override
@@ -33,6 +34,11 @@ public class SupplierBOImpl implements SupplierBO {
 
     @Override
     public ArrayList<SupplierDTO> getAllSupplier(String search) throws SQLException, ClassNotFoundException {
-        return supplierDAO.getAll(search);
+        ArrayList<Supplier> entity = supplierDAO.getAll(search);
+        ArrayList<SupplierDTO> supplierDTO = new ArrayList<>();
+        for (Supplier supplier : entity) {
+            supplierDTO.add(new SupplierDTO(supplier.getSupplierID(), supplier.getName(),supplier.getContact(), supplier.getEmail(), supplier.getAddress()));
+        }
+        return supplierDTO;
     }
 }

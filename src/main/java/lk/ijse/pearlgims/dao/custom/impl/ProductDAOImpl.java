@@ -4,6 +4,7 @@ import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.ProductDAO;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
+import lk.ijse.pearlgims.entity.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,38 +73,38 @@ public class ProductDAOImpl implements ProductDAO {
         return "P001";
     }
 
-    public boolean save(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+    public boolean save(Product entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate(
                 "insert into product (product_id, name, price, qty, status, size) values (?,?,?,?,?,?)",
-                productDTO.getProductId(),
-                productDTO.getName(),
-                productDTO.getPrice(),
-                productDTO.getQty(),
-                productDTO.getStatus(),
-                productDTO.getSize()
+                entity.getProductId(),
+                entity.getName(),
+                entity.getPrice(),
+                entity.getQty(),
+                entity.getStatus(),
+                entity.getSize()
         );
     }
 
-    public ArrayList<ProductDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Product> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.executeQuery("select * from product");
 
-        ArrayList<ProductDTO> productDTOArrayList = new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<>();
         while (resultSet.next()){
-            ProductDTO productDTO = new ProductDTO(resultSet.getString(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
-            productDTOArrayList.add(productDTO);
+            Product entity = new Product(resultSet.getString(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
+            products.add(entity);
         }
 
-        return productDTOArrayList;
+        return products;
     }
 
-    public boolean update(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(Product entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("update product set name=?, price=?, qty=?, status=?, size=? where product_id=?",
-                productDTO.getName(),
-                productDTO.getPrice(),
-                productDTO.getQty(),
-                productDTO.getStatus(),
-                productDTO.getSize(),
-                productDTO.getProductId()
+                entity.getName(),
+                entity.getPrice(),
+                entity.getQty(),
+                entity.getStatus(),
+                entity.getSize(),
+                entity.getProductId()
         );
     }
 

@@ -3,43 +3,44 @@ package lk.ijse.pearlgims.dao.custom.impl;
 import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.SupplierDAO;
 import lk.ijse.pearlgims.dto.SupplierDTO;
+import lk.ijse.pearlgims.entity.Supplier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierDAOImpl implements SupplierDAO {
-    public ArrayList<SupplierDTO> getAll(String search) throws SQLException, ClassNotFoundException {
+    public ArrayList<Supplier> getAll(String search) throws SQLException, ClassNotFoundException {
         String searchQuery = "%" + search + "%";
         ResultSet result = SQLUtil.executeQuery("SELECT * FROM supplier Where name like ?", searchQuery);
-        ArrayList<SupplierDTO> supplierList = new ArrayList<>();
+        ArrayList<Supplier> supplierList = new ArrayList<>();
         while (result.next()) {
-            SupplierDTO supplier = new SupplierDTO(
+            Supplier entity = new Supplier(
                     result.getString(1),
                     result.getString(2),
                     result.getString(3),
                     result.getString(4),
                     result.getString(5)
             );
-            supplierList.add(supplier);
+            supplierList.add(entity);
         }
         return supplierList;
     }
 
-    public boolean save(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+    public boolean save(Supplier entity) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO supplier VALUES (?,?,?,?,?)";
-        return SQLUtil.executeUpdate(sql, supplierDTO.getSupplierID(), supplierDTO.getName(), supplierDTO.getContact(), supplierDTO.getEmail(), supplierDTO.getAddress());
+        return SQLUtil.executeUpdate(sql, entity.getSupplierID(), entity.getName(), entity.getContact(), entity.getEmail(), entity.getAddress());
     }
 
     @Override
-    public ArrayList<SupplierDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Supplier> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
 
-    public boolean update(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(Supplier entity) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE supplier SET name = ?, contact = ?, email = ?, address = ? WHERE supplier_id = ?";
-        return SQLUtil.executeUpdate(sql, supplierDTO.getName(), supplierDTO.getContact(), supplierDTO.getEmail(), supplierDTO.getAddress(), supplierDTO.getSupplierID());
+        return SQLUtil.executeUpdate(sql, entity.getName(), entity.getContact(), entity.getEmail(), entity.getAddress(), entity.getSupplierID());
     }
 
     public boolean delete(String supplierID) throws SQLException, ClassNotFoundException {

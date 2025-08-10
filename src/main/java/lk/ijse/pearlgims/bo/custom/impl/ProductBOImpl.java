@@ -6,6 +6,7 @@ import lk.ijse.pearlgims.dao.custom.ProductDAO;
 import lk.ijse.pearlgims.dao.custom.impl.ProductDAOImpl;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
+import lk.ijse.pearlgims.entity.Product;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,17 +20,22 @@ public class ProductBOImpl implements ProductBO {
 
     @Override
     public boolean saveProduct(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
-        return productDAO.save(productDTO);
+        return productDAO.save(new Product(productDTO.getProductId(),productDTO.getName(),productDTO.getPrice(),productDTO.getQty(),productDTO.getStatus(),productDTO.getSize()));
     }
 
     @Override
     public ArrayList<ProductDTO> getAllProduct() throws SQLException, ClassNotFoundException {
-        return productDAO.getAll();
+        ArrayList<Product> entity = productDAO.getAll();
+        ArrayList<ProductDTO> productDTO = new ArrayList<>();
+        for (Product product : entity) {
+            productDTO.add(new ProductDTO(product.getProductId(),product.getName(),product.getPrice(),product.getQty(),product.getStatus(),product.getSize()));
+        }
+        return productDTO;
     }
 
     @Override
     public boolean updateProduct(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
-        return productDAO.update(productDTO);
+        return productDAO.update(new Product(productDTO.getProductId(),productDTO.getName(),productDTO.getPrice(),productDTO.getQty(),productDTO.getStatus(),productDTO.getSize()));
     }
 
     @Override

@@ -4,6 +4,7 @@ import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.RawMaterialDAO;
 import lk.ijse.pearlgims.dto.InventoryDetailDTO;
 import lk.ijse.pearlgims.dto.RawMaterialDTO;
+import lk.ijse.pearlgims.entity.RawMaterial;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,34 +62,34 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
         return "R001";
     }
 
-    public boolean save(RawMaterialDTO rawMaterialDTO) throws SQLException, ClassNotFoundException {
+    public boolean save(RawMaterial entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate(
                 "insert into raw_material (material_id, material_name, price, qty) values (?,?,?,?)",
-                rawMaterialDTO.getMaterialId(),
-                rawMaterialDTO.getMaterialName(),
-                rawMaterialDTO.getPrice(),
-                rawMaterialDTO.getQty()
+                entity.getMaterialId(),
+                entity.getMaterialName(),
+                entity.getPrice(),
+                entity.getQty()
         );
     }
 
-    public ArrayList<RawMaterialDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<RawMaterial> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.executeQuery("select * from raw_material");
 
-        ArrayList<RawMaterialDTO> rawMaterialDTOArrayList = new ArrayList<>();
+        ArrayList<RawMaterial> entity = new ArrayList<>();
         while (resultSet.next()){
-            RawMaterialDTO rawMaterialDTO = new RawMaterialDTO(resultSet.getString(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getInt(4));
-            rawMaterialDTOArrayList.add(rawMaterialDTO);
+            RawMaterial rawMaterials = new RawMaterial(resultSet.getString(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getInt(4));
+            entity.add(rawMaterials);
         }
 
-        return rawMaterialDTOArrayList;
+        return entity;
     }
 
-    public boolean update(RawMaterialDTO rawMaterialDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(RawMaterial entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("update raw_material set material_name=?, price=?, qty=? where material_id=?",
-                rawMaterialDTO.getMaterialName(),
-                rawMaterialDTO.getPrice(),
-                rawMaterialDTO.getQty(),
-                rawMaterialDTO.getMaterialId()
+                entity.getMaterialName(),
+                entity.getPrice(),
+                entity.getQty(),
+                entity.getMaterialId()
         );
     }
 

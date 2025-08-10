@@ -3,6 +3,7 @@ package lk.ijse.pearlgims.dao.custom.impl;
 import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.CustomerDAO;
 import lk.ijse.pearlgims.dto.CustomerDTO;
+import lk.ijse.pearlgims.entity.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,36 +25,36 @@ public class CustomerDAOImpl implements CustomerDAO {
         return "C001";
     }
 
-    public boolean save(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+    public boolean save(Customer entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate(
                 "insert into customer values (?,?,?,?,?)",
-                customerDTO.getCustomerID(),
-                customerDTO.getName(),
-                customerDTO.getContact(),
-                customerDTO.getEmail(),
-                customerDTO.getAddress()
+                entity.getCustomerID(),
+                entity.getName(),
+                entity.getContact(),
+                entity.getEmail(),
+                entity.getAddress()
         );
     }
 
-    public ArrayList<CustomerDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Customer> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.executeQuery("select * from customer");
 
-        ArrayList<CustomerDTO> customerDTOArrayList = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<>();
         while (resultSet.next()){
-            CustomerDTO customerDTO = new CustomerDTO(resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getString(5));
-            customerDTOArrayList.add(customerDTO);
+            Customer entity = new Customer(resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getString(5));
+            customers.add(entity);
         }
 
-        return customerDTOArrayList;
+        return customers;
     }
 
-    public boolean update(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(Customer entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("update customer set name=?, contact=?, email=?, address=? where customer_id=?",
-                customerDTO.getName(),
-                customerDTO.getContact(),
-                customerDTO.getEmail(),
-                customerDTO.getAddress(),
-                customerDTO.getCustomerID()
+                entity.getName(),
+                entity.getContact(),
+                entity.getEmail(),
+                entity.getAddress(),
+                entity.getCustomerID()
         );
     }
 

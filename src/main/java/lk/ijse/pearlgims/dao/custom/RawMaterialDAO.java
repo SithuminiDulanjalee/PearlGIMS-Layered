@@ -3,11 +3,12 @@ package lk.ijse.pearlgims.dao.custom;
 import lk.ijse.pearlgims.dao.CrudDAO;
 import lk.ijse.pearlgims.dto.InventoryDetailDTO;
 import lk.ijse.pearlgims.dto.RawMaterialDTO;
+import lk.ijse.pearlgims.entity.RawMaterial;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface RawMaterialDAO extends CrudDAO<RawMaterialDTO> {
+public interface RawMaterialDAO extends CrudDAO<RawMaterial> {
     public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException ;
 
 
