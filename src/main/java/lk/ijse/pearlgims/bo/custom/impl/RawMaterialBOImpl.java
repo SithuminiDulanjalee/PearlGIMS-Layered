@@ -1,6 +1,7 @@
 package lk.ijse.pearlgims.bo.custom.impl;
 
 import lk.ijse.pearlgims.bo.custom.RawMaterialBO;
+import lk.ijse.pearlgims.dao.DAOFactory;
 import lk.ijse.pearlgims.dao.custom.RawMaterialDAO;
 import lk.ijse.pearlgims.dao.custom.impl.RawMaterialDAOImpl;
 import lk.ijse.pearlgims.dto.RawMaterialDTO;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RawMaterialBOImpl implements RawMaterialBO {
-    RawMaterialDAO rawMaterialDAO = new RawMaterialDAOImpl();
+    RawMaterialDAO rawMaterialDAO = (RawMaterialDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.RAW_MATERIAL);
     @Override
     public String getNextRawMaterialId() throws SQLException, ClassNotFoundException {
         return rawMaterialDAO.getNextId();

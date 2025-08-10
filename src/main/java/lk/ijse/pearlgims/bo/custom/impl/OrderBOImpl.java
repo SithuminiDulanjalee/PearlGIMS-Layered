@@ -1,6 +1,7 @@
 package lk.ijse.pearlgims.bo.custom.impl;
 
 import lk.ijse.pearlgims.bo.custom.OrderBO;
+import lk.ijse.pearlgims.dao.DAOFactory;
 import lk.ijse.pearlgims.dao.custom.CustomerDAO;
 import lk.ijse.pearlgims.dao.custom.OrderDAO;
 import lk.ijse.pearlgims.dao.custom.OrderItemDAO;
@@ -19,10 +20,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderBOImpl implements OrderBO {
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    ProductDAO productDAO = new ProductDAOImpl();
-    OrderDAO orderDAO = new OrderDAOImpl();
-    OrderItemDAO orderItemDAO = new OrderItemDAOImpl();
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    ProductDAO productDAO = (ProductDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.PRODUCT);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.ORDER);
+    OrderItemDAO orderItemDAO = (OrderItemDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.ORDER_ITEM);
 
     @Override
     public ArrayList<String> getAllCustomerIds() throws SQLException, ClassNotFoundException {

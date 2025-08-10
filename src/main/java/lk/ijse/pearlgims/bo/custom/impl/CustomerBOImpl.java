@@ -1,6 +1,7 @@
 package lk.ijse.pearlgims.bo.custom.impl;
 
 import lk.ijse.pearlgims.bo.custom.CustomerBO;
+import lk.ijse.pearlgims.dao.DAOFactory;
 import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.CustomerDAO;
 import lk.ijse.pearlgims.dao.custom.impl.CustomerDAOImpl;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerBOImpl implements CustomerBO {
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
     @Override
     public ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {

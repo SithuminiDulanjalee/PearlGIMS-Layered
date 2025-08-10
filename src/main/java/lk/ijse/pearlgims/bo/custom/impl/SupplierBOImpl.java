@@ -1,6 +1,7 @@
 package lk.ijse.pearlgims.bo.custom.impl;
 
 import lk.ijse.pearlgims.bo.custom.SupplierBO;
+import lk.ijse.pearlgims.dao.DAOFactory;
 import lk.ijse.pearlgims.dao.custom.SupplierDAO;
 import lk.ijse.pearlgims.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.pearlgims.dto.SupplierDTO;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SupplierBOImpl implements SupplierBO {
-    SupplierDAO supplierDAO = new SupplierDAOImpl();
+    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.SUPPLIER);
     @Override
     public boolean saveSupplier(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
         return supplierDAO.save(supplierDTO);
