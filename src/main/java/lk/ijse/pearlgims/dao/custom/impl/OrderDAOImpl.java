@@ -1,13 +1,10 @@
 package lk.ijse.pearlgims.dao.custom.impl;
 
+import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.OrderDAO;
-import lk.ijse.pearlgims.db.DBConnection;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.OrdersDTO;
-import lk.ijse.pearlgims.util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import java.util.Map;
 
 public class OrderDAOImpl implements OrderDAO {
     public String getNextId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("select order_id from orders order by order_id desc limit 1");
+        ResultSet resultSet = SQLUtil.executeQuery("select order_id from orders order by order_id desc limit 1");
         char tableCharacter = 'O';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
@@ -31,12 +28,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     public boolean changeStatus(String orderId, String status) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("update orders set status=? where order_id=?", status, orderId);
+        return SQLUtil.executeUpdate("update orders set status=? where order_id=?", status, orderId);
     }
 
     public OrdersDTO getById(String orderId) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("select * from orders where order_id=?", orderId);
-        ResultSet orderItem = CrudUtil.execute("select * from order_item where order_id=?", orderId);
+        ResultSet resultSet = SQLUtil.executeQuery("select * from orders where order_id=?", orderId);
+        ResultSet orderItem = SQLUtil.executeQuery("select * from order_item where order_id=?", orderId);
         OrdersDTO order = new OrdersDTO();
 
 
@@ -64,7 +61,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     public int getCount() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("select count(*) from orders");
+        ResultSet rst = SQLUtil.executeQuery("select count(*) from orders");
         if (rst.next()) {
             return rst.getInt(1);
         }
@@ -73,7 +70,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     public Map<String, Integer> getCountByDate() throws SQLException, ClassNotFoundException {
         Map<String, Integer> orderCountMap = new HashMap<>();
-        ResultSet rst = CrudUtil.execute("select date(order_date) as order_date, count(*) as count from orders group by date(order_date)");
+        ResultSet rst = SQLUtil.executeQuery("select date(order_date) as order_date, count(*) as count from orders group by date(order_date)");
         while (rst.next()) {
             orderCountMap.put(rst.getString("order_date"), rst.getInt("count"));
         }
@@ -82,7 +79,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean save(OrdersDTO ordersDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("insert into orders values (?,?,?)",
+        return SQLUtil.executeUpdate("insert into orders values (?,?,?)",
                 ordersDTO.getOrderId(),
                 ordersDTO.getCustomerId(),
                 ordersDTO.getOrderDate()

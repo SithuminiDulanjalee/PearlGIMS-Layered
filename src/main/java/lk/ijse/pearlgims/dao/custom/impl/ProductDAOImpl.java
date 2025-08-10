@@ -1,9 +1,9 @@
 package lk.ijse.pearlgims.dao.custom.impl;
 
+import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.ProductDAO;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
-import lk.ijse.pearlgims.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class ProductDAOImpl implements ProductDAO {
     public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("select product_id from product");
+        ResultSet rst = SQLUtil.executeQuery("select product_id from product");
         ArrayList<String> list = new ArrayList<>();
         while (rst.next()) {
             String id = rst.getString(1);
@@ -21,7 +21,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public ArrayList<String> getAllSizes() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("select distinct size from product");
+        ResultSet rst = SQLUtil.executeQuery("select distinct size from product");
         ArrayList<String> list = new ArrayList<>();
         while (rst.next()) {
             String size = rst.getString(1);
@@ -31,7 +31,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public ProductDTO findById(String selectedProductId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute(
+        ResultSet rst = SQLUtil.executeQuery(
                 "select * from product where product_id=?",
                 selectedProductId
         );
@@ -49,7 +49,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public boolean reduceQty(OrderItemDTO orderItemDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQLUtil.executeUpdate(
                 "update product set qty = qty - ? where product_id = ?",
                 orderItemDTO.getQty(),
                 orderItemDTO.getProductId()
@@ -58,7 +58,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 
     public String getNextId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("select product_id from product order by product_id desc limit 1");
+        ResultSet resultSet = SQLUtil.executeQuery("select product_id from product order by product_id desc limit 1");
 
         if(resultSet.next()){
             String lastId = resultSet.getString(1);
@@ -73,7 +73,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public boolean save(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQLUtil.executeUpdate(
                 "insert into product (product_id, name, price, qty, status, size) values (?,?,?,?,?,?)",
                 productDTO.getProductId(),
                 productDTO.getName(),
@@ -85,7 +85,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public ArrayList<ProductDTO> getAll() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("select * from product");
+        ResultSet resultSet = SQLUtil.executeQuery("select * from product");
 
         ArrayList<ProductDTO> productDTOArrayList = new ArrayList<>();
         while (resultSet.next()){
@@ -97,7 +97,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public boolean update(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("update product set name=?, price=?, qty=?, status=?, size=? where product_id=?",
+        return SQLUtil.executeUpdate("update product set name=?, price=?, qty=?, status=?, size=? where product_id=?",
                 productDTO.getName(),
                 productDTO.getPrice(),
                 productDTO.getQty(),
@@ -108,6 +108,6 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     public boolean delete(String productId) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("delete from product where product_id=?",productId);
+        return SQLUtil.executeUpdate("delete from product where product_id=?",productId);
     }
 }

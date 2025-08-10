@@ -1,9 +1,9 @@
 package lk.ijse.pearlgims.dao.custom.impl;
 
+import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.RawMaterialDAO;
 import lk.ijse.pearlgims.dto.InventoryDetailDTO;
 import lk.ijse.pearlgims.dto.RawMaterialDTO;
-import lk.ijse.pearlgims.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class RawMaterialDAOImpl implements RawMaterialDAO {
     public ArrayList<String> getAllIds() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("select material_id from raw_material");
+        ResultSet rst = SQLUtil.executeQuery("select material_id from raw_material");
         ArrayList<String> list = new ArrayList<>();
         while (rst.next()) {
             String id = rst.getString(1);
@@ -22,7 +22,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
 
 
     public RawMaterialDTO findById(String selectedRawMaterialId) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute(
+        ResultSet rst = SQLUtil.executeQuery(
                 "select * from raw_material where material_id=?",
                 selectedRawMaterialId
         );
@@ -38,7 +38,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
     }
 
     public boolean reduceQty(InventoryDetailDTO inventoryDetailDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQLUtil.executeUpdate(
                 "update raw_material set qty = qty - ? where material_id = ?",
                 inventoryDetailDTO.getQty(),
                 inventoryDetailDTO.getMaterialId()
@@ -47,7 +47,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
 
 
     public String getNextId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("select material_id from raw_material order by material_id desc limit 1");
+        ResultSet resultSet = SQLUtil.executeQuery("select material_id from raw_material order by material_id desc limit 1");
 
         if(resultSet.next()){
             String lastId = resultSet.getString(1);
@@ -62,7 +62,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
     }
 
     public boolean save(RawMaterialDTO rawMaterialDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQLUtil.executeUpdate(
                 "insert into raw_material (material_id, material_name, price, qty) values (?,?,?,?)",
                 rawMaterialDTO.getMaterialId(),
                 rawMaterialDTO.getMaterialName(),
@@ -72,7 +72,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
     }
 
     public ArrayList<RawMaterialDTO> getAll() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("select * from raw_material");
+        ResultSet resultSet = SQLUtil.executeQuery("select * from raw_material");
 
         ArrayList<RawMaterialDTO> rawMaterialDTOArrayList = new ArrayList<>();
         while (resultSet.next()){
@@ -84,7 +84,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
     }
 
     public boolean update(RawMaterialDTO rawMaterialDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("update raw_material set material_name=?, price=?, qty=? where material_id=?",
+        return SQLUtil.executeUpdate("update raw_material set material_name=?, price=?, qty=? where material_id=?",
                 rawMaterialDTO.getMaterialName(),
                 rawMaterialDTO.getPrice(),
                 rawMaterialDTO.getQty(),
@@ -93,11 +93,11 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
     }
 
     public boolean delete(String rawMaterialId) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("delete from raw_material where material_id=?",rawMaterialId);
+        return SQLUtil.executeUpdate("delete from raw_material where material_id=?",rawMaterialId);
     }
 
     public ArrayList<RawMaterialDTO> load() throws SQLException, ClassNotFoundException {
-        ResultSet result = CrudUtil.execute("SELECT material_id,material_name FROM raw_material");
+        ResultSet result = SQLUtil.executeQuery("SELECT material_id,material_name FROM raw_material");
         ArrayList<RawMaterialDTO> rawMaterialList = new ArrayList<>();
         while (result.next()) {
             RawMaterialDTO rawMaterial = new RawMaterialDTO(

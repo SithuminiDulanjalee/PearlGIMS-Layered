@@ -14,7 +14,6 @@ import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.OrdersDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
 import lk.ijse.pearlgims.dto.tm.OrderTM;
-import lk.ijse.pearlgims.util.CrudUtil;
 
 import java.net.URL;
 import java.sql.Connection;

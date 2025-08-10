@@ -1,8 +1,8 @@
 package lk.ijse.pearlgims.dao.custom.impl;
 
+import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.OrderItemDAO;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
-import lk.ijse.pearlgims.util.CrudUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     public boolean saveDetail(OrderItemDTO orderItemDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQLUtil.executeUpdate(
                 "insert into order_item values (?,?,?,?)",
                 orderItemDTO.getOrderId(),
                 orderItemDTO.getProductId(),

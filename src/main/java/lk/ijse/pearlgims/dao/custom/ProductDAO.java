@@ -2,9 +2,7 @@ package lk.ijse.pearlgims.dao.custom;
 
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
-import lk.ijse.pearlgims.util.CrudUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
