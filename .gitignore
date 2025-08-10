@@ -3,8 +3,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-src/main/java/lk/ijse/pearlgims/dao/*
-src/main/java/lk/ijse/pearlgims/controller/*
+#src/main/java/lk/ijse/pearlgims/dao/*
+#src/main/java/lk/ijse/pearlgims/controller/*
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
