@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.pearlgims.bo.custom.RawMaterialBO;
+import lk.ijse.pearlgims.bo.custom.impl.RawMaterialBOImpl;
 import lk.ijse.pearlgims.dao.custom.RawMaterialDAO;
 import lk.ijse.pearlgims.dao.custom.impl.RawMaterialDAOImpl;
 import lk.ijse.pearlgims.dto.RawMaterialDTO;
@@ -38,7 +40,7 @@ public class RawMaterialPageController implements Initializable {
 
 //    private final RawMaterialModel rawMaterialModel = new RawMaterialModel();
 
-    private RawMaterialDAO rawMaterialDAO = new RawMaterialDAOImpl();
+    RawMaterialBO rawMaterialBO = new RawMaterialBOImpl();
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
     }
@@ -77,7 +79,7 @@ public class RawMaterialPageController implements Initializable {
         );
 
         try {
-            boolean isSaved = rawMaterialDAO.save(rawMaterialDTO);
+            boolean isSaved = rawMaterialBO.saveRawMaterial(rawMaterialDTO);
 
             if (isSaved) {
                 resetPage();
@@ -106,7 +108,7 @@ public class RawMaterialPageController implements Initializable {
                 qtyUpdate
         );
         try {
-            boolean isUpdated = rawMaterialDAO.update(rawMaterialDTO);
+            boolean isUpdated = rawMaterialBO.updateRawMaterial(rawMaterialDTO);
 
             if (isUpdated) {
                 resetPage();
@@ -133,7 +135,7 @@ public class RawMaterialPageController implements Initializable {
         if (response.isPresent() && response.get() == ButtonType.YES) {
             String materialID = lblMaterialId.getText();
             try {
-                boolean isDeleted = rawMaterialDAO.delete(materialID);
+                boolean isDeleted = rawMaterialBO.deleteRawMaterial(materialID);
 
                 if (isDeleted) {
                     resetPage();
@@ -171,7 +173,7 @@ public class RawMaterialPageController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<RawMaterialDTO> rawMaterialDTOArrayList = rawMaterialDAO.getAll();
+        ArrayList<RawMaterialDTO> rawMaterialDTOArrayList = rawMaterialBO.getAllRawMaterial();
         ObservableList<RawMaterialTM> rawMaterialTMS = FXCollections.observableArrayList();
 
         for (RawMaterialDTO rawMaterialDTO : rawMaterialDTOArrayList) {
@@ -187,7 +189,7 @@ public class RawMaterialPageController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = rawMaterialDAO.getNextId();
+        String nextId = rawMaterialBO.getNextRawMaterialId();
         lblMaterialId.setText(nextId);
     }
 

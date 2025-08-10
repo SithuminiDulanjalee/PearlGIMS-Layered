@@ -10,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.pearlgims.bo.custom.CustomerBO;
+import lk.ijse.pearlgims.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.pearlgims.dao.custom.CustomerDAO;
 import lk.ijse.pearlgims.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.pearlgims.dto.CustomerDTO;
@@ -46,7 +48,7 @@ public class CustomerPageController implements Initializable {
     private final String addressPattern = "^[A-Za-z ]+$";
 
 //    private final CustomerModel customerModel = new CustomerModel();
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerBO customerBO = new CustomerBOImpl();
     public ImageView supplierImage;
     public TextField txtSearch;
     public Button btnEmail;
@@ -103,7 +105,7 @@ public class CustomerPageController implements Initializable {
         );
 
         try {
-            boolean isSaved = customerDAO.save(customerDTO);
+            boolean isSaved = customerBO.saveCustomer(customerDTO);
 
             if (isSaved) {
                 resetPage();
@@ -141,7 +143,7 @@ public class CustomerPageController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customerDTOArrayList = customerDAO.getAll();
+        ArrayList<CustomerDTO> customerDTOArrayList = customerBO.getAllCustomer();
         ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
 
         for (CustomerDTO customerDTO : customerDTOArrayList){
@@ -159,7 +161,7 @@ public class CustomerPageController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = customerDAO.getNextId();
+        String nextId = customerBO.getNextCustomerId();
         lblCustomerId.setText(nextId);
     }
 
@@ -179,7 +181,7 @@ public class CustomerPageController implements Initializable {
         );
 
         try {
-            boolean isUpdated = customerDAO.update(customerDTO);
+            boolean isUpdated = customerBO.updateCustomer(customerDTO);
 
             if (isUpdated) {
                 resetPage();
@@ -206,7 +208,7 @@ public class CustomerPageController implements Initializable {
         if (response.isPresent() && response.get() == ButtonType.YES) {
             String customerID = lblCustomerId.getText();
             try {
-                boolean isDeleted = customerDAO.delete(customerID);
+                boolean isDeleted = customerBO.deleteCustomer(customerID);
 
                 if (isDeleted) {
                     resetPage();

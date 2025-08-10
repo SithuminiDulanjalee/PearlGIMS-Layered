@@ -11,6 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import lk.ijse.pearlgims.bo.custom.SupplierBO;
+import lk.ijse.pearlgims.bo.custom.impl.SupplierBOImpl;
 import lk.ijse.pearlgims.dao.custom.SupplierDAO;
 import lk.ijse.pearlgims.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.pearlgims.dto.SupplierDTO;
@@ -37,7 +39,7 @@ public class SupplierPageController implements Initializable {
     public Button btnUpdate;
 
 //    SupplierModel supplierModel = new SupplierModel();
-    private SupplierDAO supplierDAO = new SupplierDAOImpl();
+    SupplierBO supplierBO = new SupplierBOImpl();
 
     public void iconAddSupplierOnAction(MouseEvent mouseEvent) {
     }
@@ -58,7 +60,7 @@ public class SupplierPageController implements Initializable {
         SupplierDTO supplierDTO = new SupplierDTO(supplierId, name, address, contact, email);
 
         try {
-            boolean isUpdated = supplierDAO.update(supplierDTO);
+            boolean isUpdated = supplierBO.updateSupplier(supplierDTO);
 
             if(isUpdated){
                 reload();
@@ -90,7 +92,7 @@ public class SupplierPageController implements Initializable {
 
         String searchQuery = txtSearch.getText();
 
-        ArrayList<SupplierDTO> suppliers = supplierDAO.getAll(searchQuery);
+        ArrayList<SupplierDTO> suppliers = supplierBO.getAllSupplier(searchQuery);
 
         gridPane.getChildren().clear(); // Clear old cards
 
@@ -170,7 +172,7 @@ public class SupplierPageController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            boolean isDeleted = supplierDAO.delete(supplierID);
+            boolean isDeleted = supplierBO.deleteSupplier(supplierID);
             if (isDeleted) {
                 reload();
                 new Alert(Alert.AlertType.INFORMATION, "Supplier deleted successfully").show();
@@ -189,7 +191,7 @@ public class SupplierPageController implements Initializable {
 
         SupplierDTO supplierDTO = new SupplierDTO(id,name,contact,email,address);
         try {
-            boolean isSaved = supplierDAO.save(supplierDTO);
+            boolean isSaved = supplierBO.saveSupplier(supplierDTO);
             if (isSaved) {
                 reload();
                 new Alert(Alert.AlertType.INFORMATION, "Supplier saved successfully").show();
@@ -204,7 +206,7 @@ public class SupplierPageController implements Initializable {
 
     public void getNextSupplierId(){
         try{
-            String nextId = supplierDAO.getNextId();
+            String nextId = supplierBO.getNextSupplierId();
             lblSupplierID.setText(nextId);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR);

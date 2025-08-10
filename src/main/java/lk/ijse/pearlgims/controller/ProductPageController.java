@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.pearlgims.bo.custom.ProductBO;
+import lk.ijse.pearlgims.bo.custom.impl.ProductBOImpl;
 import lk.ijse.pearlgims.dao.custom.ProductDAO;
 import lk.ijse.pearlgims.dao.custom.impl.ProductDAOImpl;
 import lk.ijse.pearlgims.dto.ProductDTO;
@@ -41,7 +43,7 @@ public class ProductPageController implements Initializable {
     public ComboBox<String> cmbStatus;
 
 //    private final ProductModel productModel = new ProductModel();
-    private ProductDAO productDAO = new ProductDAOImpl();
+    ProductBO productBO = new ProductBOImpl();
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
     }
@@ -103,7 +105,7 @@ public class ProductPageController implements Initializable {
         );
 
         try {
-            boolean isSaved = productDAO.save(productDTO);
+            boolean isSaved = productBO.saveProduct(productDTO);
 
             if (isSaved) {
                 resetPage();
@@ -160,7 +162,7 @@ public class ProductPageController implements Initializable {
                 selectedSizeUpdate
         );
         try {
-            boolean isUpdated = productDAO.update(productDTO);
+            boolean isUpdated = productBO.updateProduct(productDTO);
 
             if (isUpdated) {
                 resetPage();
@@ -187,7 +189,7 @@ public class ProductPageController implements Initializable {
         if (response.isPresent() && response.get() == ButtonType.YES) {
             String productID = lblProductId.getText();
             try {
-                boolean isDeleted = productDAO.delete(productID);
+                boolean isDeleted = productBO.deleteProduct(productID);
 
                 if (isDeleted) {
                     resetPage();
@@ -250,7 +252,7 @@ public class ProductPageController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductDTO> productDTOArrayList = productDAO.getAll();
+        ArrayList<ProductDTO> productDTOArrayList = productBO.getAllProduct();
         ObservableList<ProductTM> productTMS = FXCollections.observableArrayList();
 
         for (ProductDTO productDTO : productDTOArrayList){
@@ -267,7 +269,7 @@ public class ProductPageController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = productDAO.getNextId();
+        String nextId = productBO.getNextProductId();
         lblProductId.setText(nextId);
     }
 
