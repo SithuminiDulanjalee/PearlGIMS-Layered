@@ -86,4 +86,20 @@ public class OrderDAOImpl implements OrderDAO {
         );
     }
 
+    @Override
+    public ArrayList<OrdersDTO> getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean update(OrdersDTO customerDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String customerID) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+
 }

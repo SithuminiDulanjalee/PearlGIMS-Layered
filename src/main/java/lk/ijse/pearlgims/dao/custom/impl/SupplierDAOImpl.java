@@ -31,6 +31,12 @@ public class SupplierDAOImpl implements SupplierDAO {
         return SQLUtil.executeUpdate(sql, supplierDTO.getSupplierID(), supplierDTO.getName(), supplierDTO.getContact(), supplierDTO.getEmail(), supplierDTO.getAddress());
     }
 
+    @Override
+    public ArrayList<SupplierDTO> getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+
     public boolean update(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE supplier SET name = ?, contact = ?, email = ?, address = ? WHERE supplier_id = ?";
         return SQLUtil.executeUpdate(sql, supplierDTO.getName(), supplierDTO.getContact(), supplierDTO.getEmail(), supplierDTO.getAddress(), supplierDTO.getSupplierID());
