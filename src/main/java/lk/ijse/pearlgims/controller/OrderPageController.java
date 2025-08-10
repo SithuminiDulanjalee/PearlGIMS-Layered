@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.pearlgims.bo.custom.OrderBO;
+import lk.ijse.pearlgims.bo.custom.impl.OrderBOImpl;
 import lk.ijse.pearlgims.dao.custom.*;
 import lk.ijse.pearlgims.dao.custom.impl.*;
 import lk.ijse.pearlgims.db.DBConnection;
@@ -47,10 +49,7 @@ public class OrderPageController implements Initializable {
 //    private final CustomerModel customerModel = new CustomerModel();
 //    private final ProductModel productModel = new ProductModel();
 
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private ProductDAO productDAO = new ProductDAOImpl();
-    private OrderDAO orderDAO = new OrderDAOImpl();
-    private OrderItemDAO orderItemDAO = new OrderItemDAOImpl();
+    OrderBO orderBO = new OrderBOImpl();
 
     private final static ObservableList<OrderTM> orderData = FXCollections.observableArrayList();
     public TableColumn<OrderTM,String> colSize;
@@ -63,7 +62,7 @@ public class OrderPageController implements Initializable {
 
     public void cmbCustomerOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String selectedCustomerId = cmbCustomerId.getSelectionModel().getSelectedItem();
-        String selectedCustomerName = customerDAO.findNameById(selectedCustomerId);
+        String selectedCustomerName = orderBO.findNameByCustomerId(selectedCustomerId);
 
         if (selectedCustomerName != null) {
             lblCustomerName.setText(selectedCustomerName);
@@ -74,7 +73,7 @@ public class OrderPageController implements Initializable {
 
     public void cmbProductOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String selectedProductId = cmbProductId.getSelectionModel().getSelectedItem();
-        ProductDTO productDTO = productDAO.findById(selectedProductId);
+        ProductDTO productDTO = orderBO.findByProductId(selectedProductId);
 
         if (productDTO != null) {
             lblProductName.setText(productDTO.getName());
@@ -89,7 +88,7 @@ public class OrderPageController implements Initializable {
 
     public void cmdSizeOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String selectedSize = cmbSize.getSelectionModel().getSelectedItem();
-        ProductDTO productDTO = productDAO.findById(selectedSize);
+        ProductDTO productDTO = orderBO.findByProductId(selectedSize);
     }
 
     public void btnAddToOrdersOnAction(ActionEvent actionEvent) {
@@ -247,7 +246,7 @@ public class OrderPageController implements Initializable {
     }
 
     private void refreshPage() throws SQLException, ClassNotFoundException {
-        lblOrderId.setText(orderDAO.getNextId());
+        lblOrderId.setText(orderBO.getNextOrderId());
         lblOrderDate.setText(LocalDate.now().toString());
         loadCustomerIds();
         loadProductIds();
@@ -256,21 +255,21 @@ public class OrderPageController implements Initializable {
     }
 
     private void loadProductIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> productIdsList = productDAO.getAllIds();
+        ArrayList<String> productIdsList = orderBO.getAllProductIds();
         ObservableList<String> productIds = FXCollections.observableArrayList();
         productIds.addAll(productIdsList);
         cmbProductId.setItems(productIds);
     }
 
     private void loadCustomerIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> customerIdsList = customerDAO.getAllIds();
+        ArrayList<String> customerIdsList = orderBO.getAllCustomerIds();
         ObservableList<String> customerIds = FXCollections.observableArrayList();
         customerIds.addAll(customerIdsList);
         cmbCustomerId.setItems(customerIds);
     }
 
     private void loadProductSizes() throws SQLException, ClassNotFoundException {
-        ArrayList<String> productSizesList = productDAO.getAllSizes();
+        ArrayList<String> productSizesList = orderBO.getAllProductSizes();
         ObservableList<String> productSizes = FXCollections.observableArrayList();
         productSizes.addAll(productSizesList);
         cmbSize.setItems(productSizes);
@@ -278,37 +277,33 @@ public class OrderPageController implements Initializable {
 
     public boolean placeOrder(OrdersDTO ordersDTO) throws SQLException, ClassNotFoundException {
 //        Connection connection = DBConnection.getInstance().getConnection();
-        Connection connection =null;
+//        Connection connection =null;
         try {
-            connection = DBConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
-
-//            boolean isOrderSave = CrudUtil.execute(
-//                    "insert into orders values (?,?,?)",
-//                    ordersDTO.getOrderId(),
-//                    ordersDTO.getCustomerId(),
-//                    ordersDTO.getOrderDate()
-//            );
-
-            boolean isOrderSave = orderDAO.save(ordersDTO);
-            System.out.println("isOrderSave = " + isOrderSave);
-
-            if (isOrderSave) {
-                boolean isOrderDetailsSaved = orderItemDAO.saveDetailsList(ordersDTO.getOrderItems());
-                System.out.println("isOrderDetailsSaved = " + isOrderDetailsSaved);
-                System.out.println("isOrderSave = " + isOrderSave);
-                if (isOrderDetailsSaved) {
-                    connection.commit();
-                    return true;
-                }
-            }
-            connection.rollback();
-            return false;
+//            connection = DBConnection.getInstance().getConnection();
+//            connection.setAutoCommit(false);
+//
+////            boolean isOrderSave = CrudUtil.execute(
+////                    "insert into orders values (?,?,?)",
+////                    ordersDTO.getOrderId(),
+////                    ordersDTO.getCustomerId(),
+////                    ordersDTO.getOrderDate()
+////            );
+//
+//            boolean isOrderSave = orderDAO.save(ordersDTO);
+//            System.out.println("isOrderSave = " + isOrderSave);
+//
+//            if (isOrderSave) {
+//                boolean isOrderDetailsSaved = orderItemDAO.saveDetailsList(ordersDTO.getOrderItems());
+//                System.out.println("isOrderDetailsSaved = " + isOrderDetailsSaved);
+//                System.out.println("isOrderSave = " + isOrderSave);
+//                if (isOrderDetailsSaved) {
+//                    connection.commit();
+//                    return true;
+//                }
+//            }
+            return orderBO.placeOrder(ordersDTO);
         } catch (Exception e) {
-            connection.rollback();
             throw new RuntimeException(e);
-        } finally {
-            connection.setAutoCommit(true);
         }
     }
 

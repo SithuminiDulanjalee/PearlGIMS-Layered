@@ -7,6 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.pearlgims.bo.custom.OrderBO;
+import lk.ijse.pearlgims.bo.custom.OrderDetailBO;
+import lk.ijse.pearlgims.bo.custom.impl.OrderBOImpl;
+import lk.ijse.pearlgims.bo.custom.impl.OrderDetailBOImpl;
 import lk.ijse.pearlgims.dao.custom.OrderDetailDAO;
 import lk.ijse.pearlgims.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.pearlgims.dto.OrderDetailDTO;
@@ -30,7 +34,7 @@ public class OrderDetailPageController implements Initializable {
 
 
 //    private final OrderDetailModel orderDetailModel = new OrderDetailModel();
-    private OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
+    OrderDetailBO orderDetailBO = new OrderDetailBOImpl();
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
     }
@@ -52,7 +56,7 @@ public class OrderDetailPageController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<OrderDetailDTO> orderDetailDTOArrayList = orderDetailDAO.getAll();
+        ArrayList<OrderDetailDTO> orderDetailDTOArrayList = orderDetailBO.getAllOrderDetails();
         ObservableList<OrderDetailTM> orderDetailTMS = FXCollections.observableArrayList();
 
         for (OrderDetailDTO orderDetailDTO : orderDetailDTOArrayList){
