@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.pearlgims.bo.BOFactory;
 import lk.ijse.pearlgims.bo.custom.RawMaterialBO;
 import lk.ijse.pearlgims.bo.custom.impl.RawMaterialBOImpl;
 import lk.ijse.pearlgims.dao.custom.RawMaterialDAO;
@@ -40,7 +41,7 @@ public class RawMaterialPageController implements Initializable {
 
 //    private final RawMaterialModel rawMaterialModel = new RawMaterialModel();
 
-    RawMaterialBO rawMaterialBO = new RawMaterialBOImpl();
+    RawMaterialBO rawMaterialBO = (RawMaterialBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.RAW_MATERIAL);
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
     }

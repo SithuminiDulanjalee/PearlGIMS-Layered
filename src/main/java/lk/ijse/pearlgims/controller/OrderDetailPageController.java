@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.pearlgims.bo.BOFactory;
 import lk.ijse.pearlgims.bo.custom.OrderBO;
 import lk.ijse.pearlgims.bo.custom.OrderDetailBO;
 import lk.ijse.pearlgims.bo.custom.impl.OrderBOImpl;
@@ -34,7 +35,7 @@ public class OrderDetailPageController implements Initializable {
 
 
 //    private final OrderDetailModel orderDetailModel = new OrderDetailModel();
-    OrderDetailBO orderDetailBO = new OrderDetailBOImpl();
+    OrderDetailBO orderDetailBO = (OrderDetailBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ORDER_DETAIL);
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
     }

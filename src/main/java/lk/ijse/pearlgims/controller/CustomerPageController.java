@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.pearlgims.bo.BOFactory;
 import lk.ijse.pearlgims.bo.custom.CustomerBO;
 import lk.ijse.pearlgims.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.pearlgims.dao.custom.CustomerDAO;
@@ -48,7 +49,7 @@ public class CustomerPageController implements Initializable {
     private final String addressPattern = "^[A-Za-z ]+$";
 
 //    private final CustomerModel customerModel = new CustomerModel();
-    CustomerBO customerBO = new CustomerBOImpl();
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
     public ImageView supplierImage;
     public TextField txtSearch;
     public Button btnEmail;

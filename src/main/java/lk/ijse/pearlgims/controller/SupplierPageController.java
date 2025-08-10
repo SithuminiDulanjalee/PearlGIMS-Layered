@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import lk.ijse.pearlgims.bo.BOFactory;
 import lk.ijse.pearlgims.bo.custom.SupplierBO;
 import lk.ijse.pearlgims.bo.custom.impl.SupplierBOImpl;
 import lk.ijse.pearlgims.dao.custom.SupplierDAO;
@@ -39,7 +40,7 @@ public class SupplierPageController implements Initializable {
     public Button btnUpdate;
 
 //    SupplierModel supplierModel = new SupplierModel();
-    SupplierBO supplierBO = new SupplierBOImpl();
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SUPPLIER);
 
     public void iconAddSupplierOnAction(MouseEvent mouseEvent) {
     }

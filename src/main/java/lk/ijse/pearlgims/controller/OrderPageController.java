@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.pearlgims.bo.BOFactory;
 import lk.ijse.pearlgims.bo.custom.OrderBO;
 import lk.ijse.pearlgims.bo.custom.impl.OrderBOImpl;
 import lk.ijse.pearlgims.dao.custom.*;
@@ -49,7 +50,7 @@ public class OrderPageController implements Initializable {
 //    private final CustomerModel customerModel = new CustomerModel();
 //    private final ProductModel productModel = new ProductModel();
 
-    OrderBO orderBO = new OrderBOImpl();
+    OrderBO orderBO = (OrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ORDER);
 
     private final static ObservableList<OrderTM> orderData = FXCollections.observableArrayList();
     public TableColumn<OrderTM,String> colSize;

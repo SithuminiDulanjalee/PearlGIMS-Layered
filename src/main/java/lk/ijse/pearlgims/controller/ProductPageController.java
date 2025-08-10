@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.pearlgims.bo.BOFactory;
 import lk.ijse.pearlgims.bo.custom.ProductBO;
 import lk.ijse.pearlgims.bo.custom.impl.ProductBOImpl;
 import lk.ijse.pearlgims.dao.custom.ProductDAO;
@@ -43,7 +44,7 @@ public class ProductPageController implements Initializable {
     public ComboBox<String> cmbStatus;
 
 //    private final ProductModel productModel = new ProductModel();
-    ProductBO productBO = new ProductBOImpl();
+    ProductBO productBO = (ProductBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PRODUCT);
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
     }
