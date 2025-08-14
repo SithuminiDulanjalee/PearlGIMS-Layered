@@ -48,7 +48,7 @@ public class CustomerPageController implements Initializable {
     private final String emailPattern = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
     private final String addressPattern = "^[A-Za-z ]+$";
 
-//    private final CustomerModel customerModel = new CustomerModel();
+    //    private final CustomerModel customerModel = new CustomerModel();
     CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
     public ImageView supplierImage;
     public TextField txtSearch;
@@ -161,6 +161,30 @@ public class CustomerPageController implements Initializable {
 
     }
 
+    private void loadFilteredData(String searchText) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDTO> customerDTOArrayList = customerBO.getAllCustomer();
+        ObservableList<CustomerTM> filteredList = FXCollections.observableArrayList();
+
+        for (CustomerDTO customerDTO : customerDTOArrayList) {
+            if (customerDTO.getCustomerID().toLowerCase().contains(searchText.toLowerCase()) ||
+                    customerDTO.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                    customerDTO.getContact().toLowerCase().contains(searchText.toLowerCase()) ||
+                    customerDTO.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
+                    customerDTO.getAddress().toLowerCase().contains(searchText.toLowerCase())) {
+
+                filteredList.add(new CustomerTM(
+                        customerDTO.getCustomerID(),
+                        customerDTO.getName(),
+                        customerDTO.getContact(),
+                        customerDTO.getEmail(),
+                        customerDTO.getAddress()
+                ));
+            }
+        }
+
+        tblCustomer.setItems(filteredList);
+    }
+
     private void loadNextId() throws SQLException, ClassNotFoundException {
         String nextId = customerBO.getNextCustomerId();
         lblCustomerId.setText(nextId);
@@ -255,17 +279,35 @@ public class CustomerPageController implements Initializable {
             }
         });
 
-}
+    }
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
-        String searchQuery = txtSearch.getText();
-        if (searchQuery.isEmpty()) {
-            reload();
+        String searchQuery = txtSearch.getText().trim();
+        try {
+            if (searchQuery.isEmpty()) {
+                loadTableData();
+            } else {
+                loadFilteredData(searchQuery);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Search failed").show();
         }
     }
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
-        reload();
+
+        String searchQuery = txtSearch.getText().trim();
+        try {
+            if (searchQuery.isEmpty()) {
+                loadTableData();
+            } else {
+                loadFilteredData(searchQuery);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Search failed").show();
+        }
     }
 
     public void btnEmailOnAction(ActionEvent actionEvent) {

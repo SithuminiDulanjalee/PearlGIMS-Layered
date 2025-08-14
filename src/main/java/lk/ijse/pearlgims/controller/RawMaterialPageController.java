@@ -44,9 +44,31 @@ public class RawMaterialPageController implements Initializable {
     RawMaterialBO rawMaterialBO = (RawMaterialBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.RAW_MATERIAL);
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
+        String searchQuery = txtSearch.getText().trim();
+        try {
+            if (searchQuery.isEmpty()) {
+                loadTableData();
+            } else {
+                loadFilteredData(searchQuery);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Search failed").show();
+        }
     }
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
+        String searchQuery = txtSearch.getText().trim();
+        try {
+            if (searchQuery.isEmpty()) {
+                loadTableData();
+            } else {
+                loadFilteredData(searchQuery);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Search failed").show();
+        }
     }
 
     public void onClickRawMaterialTable(MouseEvent mouseEvent) {
@@ -187,6 +209,28 @@ public class RawMaterialPageController implements Initializable {
         }
         tblRawMaterial.setItems(rawMaterialTMS);
 
+    }
+
+    private void loadFilteredData(String searchText) throws SQLException, ClassNotFoundException {
+        ArrayList<RawMaterialDTO> rawMaterialDTOArrayList = rawMaterialBO.getAllRawMaterial();
+        ObservableList<RawMaterialTM> filteredList = FXCollections.observableArrayList();
+
+        for (RawMaterialDTO rawMaterialDTO : rawMaterialDTOArrayList) {
+            if (rawMaterialDTO.getMaterialId().toLowerCase().contains(searchText.toLowerCase()) ||
+                    rawMaterialDTO.getMaterialName().toLowerCase().contains(searchText.toLowerCase()) ||
+                    String.valueOf(rawMaterialDTO.getPrice()).contains(searchText) ||
+                    String.valueOf(rawMaterialDTO.getQty()).contains(searchText)) {
+
+                filteredList.add(new RawMaterialTM(
+                        rawMaterialDTO.getMaterialId(),
+                        rawMaterialDTO.getMaterialName(),
+                        rawMaterialDTO.getPrice(),
+                        rawMaterialDTO.getQty()
+                ));
+            }
+        }
+
+        tblRawMaterial.setItems(filteredList);
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {

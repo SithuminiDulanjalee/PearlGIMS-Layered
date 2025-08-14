@@ -43,10 +43,27 @@ public class ProductPageController implements Initializable {
     public ComboBox<String> cmbSize;
     public ComboBox<String> cmbStatus;
 
-//    private final ProductModel productModel = new ProductModel();
+    //    private final ProductModel productModel = new ProductModel();
     ProductBO productBO = (ProductBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PRODUCT);
 
     public void txtSearchBarOnAction(KeyEvent keyEvent) {
+
+        String searchText = txtSearch.getText().trim().toLowerCase();
+        ObservableList<ProductTM> filteredList = FXCollections.observableArrayList();
+        for (ProductTM product : tblProduct.getItems()) {
+            if (product.getProductId().toLowerCase().contains(searchText) ||
+                    product.getName().toLowerCase().contains(searchText)) {
+                filteredList.add(product);
+            }
+        }
+        tblProduct.setItems(filteredList);
+        if (searchText.isEmpty()) {
+            try {
+                loadTableData();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void btnSearchOnAction(ActionEvent actionEvent) {

@@ -16,4 +16,9 @@ public class Orders {
     private Date orderDate;
     private ArrayList<OrderItem> orderItems;
 
+    public Orders(String orderId, String customerId, long time) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderDate = new Date(time);
+    }
 }

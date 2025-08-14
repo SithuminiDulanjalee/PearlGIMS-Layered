@@ -2,7 +2,6 @@ package lk.ijse.pearlgims.dao.custom.impl;
 
 import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.ProductDAO;
-import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
 import lk.ijse.pearlgims.entity.Product;
 
@@ -31,13 +30,13 @@ public class ProductDAOImpl implements ProductDAO {
         return list;
     }
 
-    public ProductDTO findById(String selectedProductId) throws SQLException, ClassNotFoundException {
+    public Product findById(String selectedProductId) throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.executeQuery(
                 "select * from product where product_id=?",
                 selectedProductId
         );
         if (rst.next()) {
-            return new ProductDTO(
+            return new Product(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getDouble(3),

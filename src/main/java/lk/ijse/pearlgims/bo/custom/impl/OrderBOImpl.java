@@ -47,10 +47,11 @@ public class OrderBOImpl implements OrderBO {
     public ArrayList<String> getAllProductSizes() throws SQLException, ClassNotFoundException {
         return productDAO.getAllSizes();
     }
-
+    
     @Override
     public ProductDTO findByProductId(String selectedProductId) throws SQLException, ClassNotFoundException {
-        return productDAO.findById(selectedProductId);
+        Product entity = productDAO.findById(selectedProductId);
+        return new ProductDTO(entity.getProductId(), entity.getName(), entity.getPrice(), entity.getQty(), entity.getStatus(), entity.getSize());
     }
 
     @Override
@@ -64,9 +65,8 @@ public class OrderBOImpl implements OrderBO {
         try {
             connection.setAutoCommit(false);
 
-            boolean isOrderSave = orderDAO.save(new Orders());
+            boolean isOrderSave = orderDAO.save(new Orders(ordersDTO.getOrderId(), ordersDTO.getCustomerId(), ordersDTO.getOrderDate().getTime()));
             System.out.println("isOrderSave = " + isOrderSave);
-
             if (isOrderSave) {
                 boolean isOrderDetailsSaved = orderItemDAO.saveDetailsList(ordersDTO.getOrderItems());
                 System.out.println("isOrderDetailsSaved = " + isOrderDetailsSaved);
