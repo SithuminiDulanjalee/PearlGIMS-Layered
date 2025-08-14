@@ -54,11 +54,11 @@ public class SupplierPageController implements Initializable {
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         String supplierId = lblSupplierID.getText();
         String name = txtName.getText();
-        String address = txtAddress.getText();
         String contact = txtContact.getText();
         String email = txtEmail.getText();
+        String address = txtAddress.getText();
 
-        SupplierDTO supplierDTO = new SupplierDTO(supplierId, name, address, contact, email);
+        SupplierDTO supplierDTO = new SupplierDTO(supplierId,name,contact,email,address);
 
         try {
             boolean isUpdated = supplierBO.updateSupplier(supplierDTO);

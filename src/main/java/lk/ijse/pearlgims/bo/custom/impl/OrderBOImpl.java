@@ -14,6 +14,9 @@ import lk.ijse.pearlgims.db.DBConnection;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.OrdersDTO;
 import lk.ijse.pearlgims.dto.ProductDTO;
+import lk.ijse.pearlgims.entity.OrderDetail;
+import lk.ijse.pearlgims.entity.Orders;
+import lk.ijse.pearlgims.entity.Product;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -61,7 +64,7 @@ public class OrderBOImpl implements OrderBO {
         try {
             connection.setAutoCommit(false);
 
-            boolean isOrderSave = orderDAO.save(ordersDTO);
+            boolean isOrderSave = orderDAO.save(new Orders());
             System.out.println("isOrderSave = " + isOrderSave);
 
             if (isOrderSave) {

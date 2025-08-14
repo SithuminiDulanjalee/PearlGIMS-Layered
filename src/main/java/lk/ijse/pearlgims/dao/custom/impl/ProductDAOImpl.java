@@ -49,14 +49,6 @@ public class ProductDAOImpl implements ProductDAO {
         return null;
     }
 
-    public boolean reduceQty(OrderItemDTO orderItemDTO) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate(
-                "update product set qty = qty - ? where product_id = ?",
-                orderItemDTO.getQty(),
-                orderItemDTO.getProductId()
-        );
-    }
-
 
     public String getNextId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.executeQuery("select product_id from product order by product_id desc limit 1");

@@ -2,11 +2,12 @@ package lk.ijse.pearlgims.dao.custom;
 
 import lk.ijse.pearlgims.dao.CrudDAO;
 import lk.ijse.pearlgims.dto.OrdersDTO;
+import lk.ijse.pearlgims.entity.Orders;
 
 import java.sql.SQLException;
 import java.util.Map;
 
-public interface OrderDAO extends CrudDAO<OrdersDTO> {
+public interface OrderDAO extends CrudDAO<Orders> {
 //    public String getNextId() throws SQLException, ClassNotFoundException;
 //
     public boolean changeStatus(String orderId, String status) throws SQLException, ClassNotFoundException ;

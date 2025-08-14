@@ -15,7 +15,11 @@ public class DAOFactory {
         ORDER_ITEM,
         PRODUCT,
         RAW_MATERIAL,
-        SUPPLIER
+        SUPPLIER,
+        INVENTORY,
+        INVENTORY_DETAIL,
+        PRODUCTION,
+        QUERY
     }
     public SuperDAO getDAO(DAOTypes daoType) {
         switch(daoType){
@@ -33,6 +37,14 @@ public class DAOFactory {
                 return new RawMaterialDAOImpl();
             case SUPPLIER:
                 return new SupplierDAOImpl();
+            case INVENTORY:
+                return new InventoryDAOImpl();
+            case INVENTORY_DETAIL:
+                return new InventoryDetailDAOImpl();
+            case PRODUCTION:
+                return new ProductionDAOImpl();
+            case QUERY:
+                return new QueryDAOImpl();
             default:
                 return null;
         }

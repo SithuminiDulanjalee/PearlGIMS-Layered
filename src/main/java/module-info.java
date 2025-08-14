@@ -11,6 +11,7 @@ module lk.ijse.pearlgims {
     opens lk.ijse.pearlgims to javafx.fxml;
     opens lk.ijse.pearlgims.controller to javafx.fxml;
     opens lk.ijse.pearlgims.dto.tm to javafx.base;
+    opens lk.ijse.pearlgims.dto to javafx.base;
 
     exports lk.ijse.pearlgims;
 }

@@ -15,7 +15,6 @@ public interface ProductDAO extends CrudDAO<Product> {
 
     public ProductDTO findById(String selectedProductId) throws SQLException, ClassNotFoundException;
 
-    public boolean reduceQty(OrderItemDTO orderItemDTO) throws SQLException, ClassNotFoundException ;
 
 
 //    public String getNextId() throws SQLException, ClassNotFoundException;

@@ -28,7 +28,9 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     public boolean save(Supplier entity) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO supplier VALUES (?,?,?,?,?)";
+        //String sql = "INSERT INTO supplier VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO supplier (supplier_id, name, contact, email, address) VALUES (?, ?, ?, ?, ?)";
+
         return SQLUtil.executeUpdate(sql, entity.getSupplierID(), entity.getName(), entity.getContact(), entity.getEmail(), entity.getAddress());
     }
 

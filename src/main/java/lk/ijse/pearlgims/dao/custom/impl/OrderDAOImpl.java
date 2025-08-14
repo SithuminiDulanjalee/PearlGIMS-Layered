@@ -4,6 +4,7 @@ import lk.ijse.pearlgims.dao.SQLUtil;
 import lk.ijse.pearlgims.dao.custom.OrderDAO;
 import lk.ijse.pearlgims.dto.OrderItemDTO;
 import lk.ijse.pearlgims.dto.OrdersDTO;
+import lk.ijse.pearlgims.entity.Orders;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,21 +79,21 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean save(OrdersDTO ordersDTO) throws SQLException, ClassNotFoundException {
+    public boolean save(Orders entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.executeUpdate("insert into orders values (?,?,?)",
-                ordersDTO.getOrderId(),
-                ordersDTO.getCustomerId(),
-                ordersDTO.getOrderDate()
+                entity.getOrderId(),
+                entity.getCustomerId(),
+                entity.getOrderDate()
         );
     }
 
     @Override
-    public ArrayList<OrdersDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Orders> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(OrdersDTO customerDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(Orders entity) throws SQLException, ClassNotFoundException {
         return false;
     }
 

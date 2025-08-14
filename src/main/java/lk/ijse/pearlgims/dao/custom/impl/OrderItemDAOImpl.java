@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderItemDAOImpl implements OrderItemDAO {
-    private ProductDAO productDAO = new ProductDAOImpl();
     public boolean saveDetailsList(ArrayList<OrderItemDTO> orderItemList) throws SQLException, ClassNotFoundException {
         for (OrderItemDTO orderItemDTO : orderItemList) {
             boolean isOrderDetailsSaved = save(orderItemDTO);
@@ -17,7 +16,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
                 return false;
             }
 
-            boolean isItemUpdated = productDAO.reduceQty(orderItemDTO);
+            boolean isItemUpdated = reduceQty(orderItemDTO);
             if (!isItemUpdated) {
                 return false;
             }
@@ -25,6 +24,15 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 
         }
         return true;
+    }
+
+    @Override
+    public boolean reduceQty(OrderItemDTO orderItemDTO) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate(
+                "update product set qty = qty - ? where product_id = ?",
+                orderItemDTO.getQty(),
+                orderItemDTO.getProductId()
+        );
     }
 
     public boolean save(OrderItemDTO orderItemDTO) throws SQLException, ClassNotFoundException {

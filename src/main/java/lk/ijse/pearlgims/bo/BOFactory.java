@@ -16,7 +16,10 @@ public class BOFactory {
         ORDER_DETAIL,
         PRODUCT,
         RAW_MATERIAL,
-        SUPPLIER
+        SUPPLIER,
+        INVENTORY,
+        PRODUCTION,
+        HOME_PAGE
     }
     public SuperBO getBO(BOTypes boType) {
         switch(boType){
@@ -32,6 +35,12 @@ public class BOFactory {
                 return new RawMaterialBOImpl();
             case SUPPLIER:
                 return new SupplierBOImpl();
+            case INVENTORY:
+                return new InventoryBOImpl();
+            case PRODUCTION:
+                return new ProductionBOImpl();
+            case HOME_PAGE:
+                return new HomePageBOImpl();
             default:
                 return null;
         }
