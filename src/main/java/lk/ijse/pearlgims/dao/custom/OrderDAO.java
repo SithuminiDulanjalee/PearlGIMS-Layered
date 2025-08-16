@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface OrderDAO extends CrudDAO<Orders> {
 //    public String getNextId() throws SQLException, ClassNotFoundException;
-//
+
     public boolean changeStatus(String orderId, String status) throws SQLException, ClassNotFoundException ;
 
     public OrdersDTO getById(String orderId) throws SQLException, ClassNotFoundException ;

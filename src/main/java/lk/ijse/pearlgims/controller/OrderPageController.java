@@ -75,6 +75,7 @@ public class OrderPageController implements Initializable {
 
     public void cmbProductOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String selectedProductId = cmbProductId.getSelectionModel().getSelectedItem();
+        System.out.println(selectedProductId);
         ProductDTO productDTO = orderBO.findByProductId(selectedProductId);
 
         if (productDTO != null) {
@@ -90,7 +91,7 @@ public class OrderPageController implements Initializable {
 
     public void cmdSizeOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String selectedSize = cmbSize.getSelectionModel().getSelectedItem();
-        ProductDTO productDTO = orderBO.findByProductId(selectedSize);
+//        ProductDTO productDTO = orderBO.findByProductId(selectedSize);
     }
 
     public void btnAddToOrdersOnAction(ActionEvent actionEvent) {

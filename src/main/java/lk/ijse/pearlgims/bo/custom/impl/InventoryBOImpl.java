@@ -55,8 +55,6 @@ public class InventoryBOImpl implements InventoryBO {
 
     public ArrayList<InventoryTM> loadInventory() throws SQLException, ClassNotFoundException {
         return inventoryDAO.load();
-
-
     }
 
 

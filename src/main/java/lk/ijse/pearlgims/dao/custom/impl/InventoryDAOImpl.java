@@ -49,18 +49,35 @@ public class InventoryDAOImpl implements InventoryDAO {
     public String getNextId(){
         try {
             ResultSet resultSet = SQLUtil.executeQuery("select MAX(inventory_id) from inventory order by inventory_id desc limit 1");
-            char tableCharacter = 'I';
+//            char tableCharacter = 'I';
+//            if (resultSet.next()) {
+//                String lastId = resultSet.getString(1);
+//                String lastIdNumberString = lastId.substring(1);
+//                int lastIdNumber = Integer.parseInt(lastIdNumberString);
+//                int nextIdNumber = lastIdNumber + 1;
+//                String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
+//                return nextIdString;
+//            }
+//            return tableCharacter + "001";
+//        } catch (ClassNotFoundException | SQLException e) {
+//            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+//            e.printStackTrace();
+//        }
+//        return null;
+            String prefix = "IN";
+
             if (resultSet.next()) {
                 String lastId = resultSet.getString(1);
-                String lastIdNumberString = lastId.substring(1);
-                int lastIdNumber = Integer.parseInt(lastIdNumberString);
-                int nextIdNumber = lastIdNumber + 1;
-                String nextIdString = String.format(tableCharacter + "%03d", nextIdNumber);
-                return nextIdString;
+                if (lastId != null && lastId.length() > 2) {
+                    int lastNum = Integer.parseInt(lastId.substring(2));
+                    int nextNum = lastNum + 1;
+                    return String.format(prefix + "%03d", nextNum);
+                }
             }
-            return tableCharacter + "001";
+
+            return prefix + "001";
+
         } catch (ClassNotFoundException | SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             e.printStackTrace();
         }
         return null;

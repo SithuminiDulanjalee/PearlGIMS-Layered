@@ -39,24 +39,31 @@ public class InventoryDetailDAOImpl implements InventoryDetailDAO {
         );
     }
 
-    public String getNextId(){
+    public String getNextId() {
         try {
-            ResultSet resultSet = SQLUtil.executeQuery("select MAX(inventory_detail_id) from inventory_detail order by inventory_detail_id desc limit 1");
-            String tableCharacter = "ID";
+            ResultSet resultSet = SQLUtil.executeQuery(
+                    "SELECT inventory_detail_id FROM inventory_detail ORDER BY inventory_detail_id DESC LIMIT 1"
+            );
+
+            String prefix = "ID";
+
             if (resultSet.next()) {
                 String lastId = resultSet.getString(1);
-                String lastIdNumberString = lastId.substring(2);
-                int lastIdNumber = Integer.parseInt(lastIdNumberString);
-                int nextIdNumber = lastIdNumber + 1;
-                String nextIdString = String.format(tableCharacter + "%04d", nextIdNumber);
-                return nextIdString;
+                if (lastId != null && lastId.length() > 2) {
+                    int lastNum = Integer.parseInt(lastId.substring(2));
+                    int nextNum = lastNum + 1;
+                    return String.format(prefix + "%04d", nextNum);
+                }
             }
-            return tableCharacter + "0001";
+
+            return prefix + "0001";
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 
     public double getRawMaterialCount() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.executeQuery("SELECT SUM(qty) FROM inventory_detail");

@@ -51,6 +51,9 @@ public class OrderBOImpl implements OrderBO {
     @Override
     public ProductDTO findByProductId(String selectedProductId) throws SQLException, ClassNotFoundException {
         Product entity = productDAO.findById(selectedProductId);
+        if (entity == null) {
+            return null;
+        }
         return new ProductDTO(entity.getProductId(), entity.getName(), entity.getPrice(), entity.getQty(), entity.getStatus(), entity.getSize());
     }
 
